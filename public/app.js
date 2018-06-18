@@ -3,8 +3,10 @@ $.getJSON("/articles", function(data) {
   // For each one
   for (var i = 0; i < data.length; i++) {
     // Display the apropos information on the page
-    $("#articles").append("<p>" + data[i].title + "<br />" + data[i].link + "</p>");
-    $("#articles").append("<button type='button' class='btn btn-primary addNoteBtn' data-id='" + data[i]._id + "'>Comments</button>");
+    $("#articles").append("<hr><p>" + data[i].title + "</p>");
+    $("#articles").append("<a href='https://www.reddit.com" + data[i].link + "'>" + data[i].link + "</a>");
+    $("#articles").append("<p>Posted by: " + data[i].author + "</p>");
+    $("#articles").append("<a class='btn addNoteBtn' data-id='" + data[i]._id + "'>Comments</a>");
   }
 });
 
@@ -28,24 +30,24 @@ function getComments(thisId) {
     .then(function(data) {
       console.log(data);
       // The title of the article
-      $("#notes").append("<h2>" + data.title + "</h2>");
+      $("#notes").append("<h5>" + data.title + "</h5>");
       // If there's a note in the article
       if (data.notes) {
         for (var i = 0; i < data.notes.length; i++) {
           // Display the apropos information on the page
-          $("#notes").append("<h3>" + data.notes[i].title + "</h3>");
-          $("#notes").append("<p>" + data.notes[i].body + "</p>");
-          $("#notes").append("<button type='button' class='btn btn-primary deleteNoteBtn' data-articleId='" + thisId + "' data-id='" + data.notes[i]._id + "'>Delete</button>");
+          $("#notes").append("<h6>" + data.notes[i].title + "</h6>");
+          $("#notes").append("<span>" + data.notes[i].body + "</span>");
+          $("#notes").append("<a class='deleteNoteBtn' data-articleId='" + thisId + "' data-id='" + data.notes[i]._id + "'><i class='far fa-times-circle'></i></a>");
         }
         // Place the title of the note in the title input
       }
 
       // An input to enter a new title
-      $("#notes").append("<input id='titleinput' name='title' >");
+      $("#notes").append("<input id='titleinput' name='title' placeholder='Name'>");
       // A textarea to add a new note body
-      $("#notes").append("<textarea id='bodyinput' name='body'></textarea>");
+      $("#notes").append("<textarea class='materialize-textarea' id='bodyinput' name='body' placeholder='Comment'></textarea>");
       // A button to submit a new note, with the id of the article saved to it
-      $("#notes").append("<button data-id='" + data._id + "' id='savenote'>Save Note</button>");
+      $("#notes").append("<a class='btn' data-id='" + data._id + "' id='savenote'>Save Comment</a>");
 
     });
 };
