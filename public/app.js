@@ -9,6 +9,9 @@ $(document).on("click", "#loadPosts", function() {
     $("#articles").empty();
     // Grab the articles as a json
     $.getJSON("/articles", function(data) {
+      if (!data.length) {
+        $("#articles").html("<p>Scrape failed. Click to try again: </p><a class='btn' id='loadPosts'>Load Posts</a>");
+      }
       // For each one
       for (var i = 0; i < data.length; i++) {
         // Display the apropos information on the page
