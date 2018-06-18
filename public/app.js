@@ -1,15 +1,25 @@
-// Grab the articles as a json
-$.getJSON("/articles", function(data) {
-  // For each one
-  for (var i = 0; i < data.length; i++) {
-    // Display the apropos information on the page
-    $("#articles").append("<hr><p>" + data[i].title + "</p>");
-    $("#articles").append("<a href='https://www.reddit.com" + data[i].link + "'>" + data[i].link + "</a>");
-    $("#articles").append("<p>Posted by: " + data[i].author + "</p>");
-    $("#articles").append("<a class='btn addNoteBtn' data-id='" + data[i]._id + "'>Comments</a>");
-  }
-});
 
+
+$(document).on("click", "#loadPosts", function() {
+  $("#articles").text("Loading posts...");
+  $.ajax({
+    method: "GET",
+    url: "scrape"
+  }).then(function() {
+    $("#articles").empty();
+    // Grab the articles as a json
+    $.getJSON("/articles", function(data) {
+      // For each one
+      for (var i = 0; i < data.length; i++) {
+        // Display the apropos information on the page
+        $("#articles").append("<hr><p>" + data[i].title + "</p>");
+        $("#articles").append("<a href='https://www.reddit.com" + data[i].link + "'>" + data[i].link + "</a>");
+        $("#articles").append("<p>Posted by: " + data[i].author + "</p>");
+        $("#articles").append("<a class='btn addNoteBtn' data-id='" + data[i]._id + "'>Comments</a>");
+      }
+    });
+  });
+});
 
 // Whenever someone clicks add note button
 $(document).on("click", ".addNoteBtn", function() {
